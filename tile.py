@@ -4,15 +4,27 @@ class Tile (object):
 
     def __init__(self, type, x_cord, y_cord):
 
+        self.neighbours = []
+
+        #Init tile variables
         self.type = type
         self.x_cord = x_cord
         self.y_cord = y_cord
         self.visited = False
+        self.start = False
         self.end = False
 
-        if(type in ['.' , 'g', 'f', 'm', 'w', '#', 'A', 'B']):
+        #Cordinates for drawing rectangles
+        self.x1 = self.y_cord * 20
+        self.x2 = self.x1 + 20
+        self.y1 = self.x_cord * 20
+        self.y2 = self.y1 + 20
+
+        #Give tile a weight depending on type
+        if(type in ['.', 'r', 'g', 'f', 'm', 'w', '#', 'A', 'B']):
             self.weight = {
-            '.': 1,
+            '.': 0,
+            'r': 1,
             'g': 5,
             'f': 10,
             'm': 50,
@@ -22,40 +34,40 @@ class Tile (object):
             'B': 0
         }[type]
 
+            #Set tile color depending on type
             self.color = {
                 '.': '#cbe079',
-                'g': "#cbe079",
-                'f': "#69c13f",
-                'm': "#754f44",
-                'w': "#5bc0eb",
-                '#': "#754f44",
+                'r': '#fdd692',
+                'g': "#64bd1f",
+                'f': "#287c50",
+                'm': "#aaaaaa",
+                'w': "#47a2bd",
+                '#': "black",
                 'A': 'red',
                 'B': 'blue'
             }[type]
 
+        #If start tile, set value to true
+        if (type == 'A'):
+            self.start = True
 
-        if (type == 'B'):
+        #If end tile, set value to true
+        elif (type == 'B'):
             self.end = True
 
     def visit(self):
+        '''
+        Visit node
+        :return: None
+        '''
         self.visited = True
         self.color = "grey"
 
-
-    def get_weight(self):
-        return self.weight
-
-
-    def get_x_cord(self):
-        return self.x_cord
-
-    def get_y_cord(self):
-        return self.y_cord
-
-
-
-
     def __str__(self):
+        '''
+        To String for tile
+        :return: String representation of a tile
+        '''
 
         return 'Tile: (' + str(self.x_cord) + "," + str(self.y_cord) + "), " \
                + "Visited: " + str(self.visited) \
