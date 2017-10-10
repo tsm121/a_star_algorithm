@@ -3,6 +3,12 @@ import math
 class Tile (object):
 
     def __init__(self, type, x_cord, y_cord):
+        """
+        A tile class for representing the given boards
+        :param type: Char, contains the type of the tile
+        :param x_cord: Int, x-coordinate for tile
+        :param y_cord: Int, y-coordinate for tile
+        """
 
         self.neighbours = []
 
@@ -15,15 +21,15 @@ class Tile (object):
         self.end = False
 
         #Cordinates for drawing rectangles
-        self.x1 = self.y_cord * 20
-        self.x2 = self.x1 + 20
-        self.y1 = self.x_cord * 20
-        self.y2 = self.y1 + 20
+        self.x1 = self.y_cord * 30
+        self.x2 = self.x1 + 30
+        self.y1 = self.x_cord * 30
+        self.y2 = self.y1 + 30
 
         #Give tile a weight depending on type
         if(type in ['.', 'r', 'g', 'f', 'm', 'w', '#', 'A', 'B']):
             self.weight = {
-            '.': 0,
+            '.': 1,
             'r': 1,
             'g': 5,
             'f': 10,
@@ -36,16 +42,29 @@ class Tile (object):
 
             #Set tile color depending on type
             self.color = {
-                '.': '#cbe079',
-                'r': '#fdd692',
-                'g': "#64bd1f",
-                'f': "#287c50",
-                'm': "#aaaaaa",
-                'w': "#47a2bd",
+                '.': '#EBE6EE', #
+                'r': '#6E4C39', #
+                'g': "#89C92A", #
+                'f': "#4B7F52", #
+                'm': "#E0C5AA", #
+                'w': "#4091CF", #
                 '#': "black",
                 'A': 'red',
                 'B': 'blue'
             }[type]
+
+        # Set tile color depending on type
+        self.color_visited = {
+            '.': '#D7D6D7', #
+            'r': '#533E2C', #
+            'g': "#608725", #
+            'f': "#196823", #
+            'm': "#AD8F70", #
+            'w': "#0A68AF", #
+            '#': "black",
+            'A': 'red',
+            'B': 'blue'
+        }[type]
 
         #If start tile, set value to true
         if (type == 'A'):
@@ -57,11 +76,19 @@ class Tile (object):
 
     def visit(self):
         '''
-        Visit node
+        Visit node, set visited to True
         :return: None
         '''
         self.visited = True
         self.color = "grey"
+
+    def __lt__(self, other):
+        """
+        Comparison method for two tiles
+        :param other:
+        :return:
+        """
+        return self.weight < other.weight
 
     def __str__(self):
         '''

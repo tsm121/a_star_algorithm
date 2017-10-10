@@ -1,6 +1,7 @@
 import collections
 
-class Queue:
+#A simple Queue class
+class Queue():
     def __init__(self):
         self.elements = collections.deque()
 
@@ -15,8 +16,8 @@ class Queue:
 
 import heapq
 
-
-class PriortyQueue():
+#A simple priority queue class
+class PriorityQueue():
 
     def __init__(self):
         self.elements = []
@@ -24,8 +25,12 @@ class PriortyQueue():
     def empty(self):
         return len(self.elements) == 0
 
-    def put(self, item, priority):
-        heapq.heappush(self.elements, (priority, item))
+    def put(self, tile, weight):
+        heapq.heappush(self.elements, (weight, tile))
 
     def get(self):
         return heapq.heappop(self.elements)[1]
+
+    def __len__(self):
+        return len(self.elements)
+
