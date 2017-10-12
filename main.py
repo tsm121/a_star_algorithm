@@ -43,7 +43,11 @@ class Board(object):
         self.run_algorithm(algo)
         self.root.attributes('-topmost', 0)
 
-        self.root.title("Algorithm: " + algo + ", Cost: " + str(self.cost))
+        if algo == 'bfs':
+            self.root.title("Board: " + pathname[13:-4] + ", Algorithm: " + "Breadth-first search")
+
+        else:
+            self.root.title("Board: " + pathname[13:-4] + ", Algorithm: " + algo + ", Cost: " + str(self.cost))
 
         #Keep window open after finish
         self.root.mainloop()
@@ -71,10 +75,10 @@ class Board(object):
             cf, csf, hbxt = a_star(self.start_tile, self.end_tile)
             self.cost = csf[self.end_tile]
 
-        self.draw_paths(cf, hbxt)
+        self.draw_paths(cf, hbxt, algo)
 
 
-    def draw_paths(self, cf, hbxt):
+    def draw_paths(self, cf, hbxt, algo):
         """
         Change color of visited tiles, draw shortest path and tiles that has been considered but not visited
         :param cf: Dictionary, containing a dictionary with tiles that been visited from start to end
@@ -105,6 +109,7 @@ class Board(object):
         path = self.reconstruct_path(cf)
 
         for tile in path:
+
             self.root.after(25, self.update_board(tile, None))
 
     def map_neighbours(self):
@@ -191,6 +196,7 @@ class Board(object):
 
         while current != self.start_tile:
             current = came_from[current]
+
             path.append(current)
 
         path.append(self.start_tile)
@@ -254,17 +260,16 @@ class Board(object):
                 self.canvas.create_rectangle(tile.x1, tile.y1, tile.x2, tile.y2, fill=tile.color_visited, outline='black')
                 #self.canvas.create_oval(tile.x1 + 7, tile.y1 + 7, tile.x2 - 7, tile.y2 - 7, fill="#777777", outline="")
 
-            self.canvas.update()
 
         elif sign == "been_next":
             self.canvas.create_oval(tile.x1 + 10, tile.y1 + 10, tile.x2 - 10, tile.y2 - 10, fill="white", outline="black")
 
         else:
             # If not start title, don't draw dot
-            if (not tile.start):
+            if (not tile.start or not tile.end):
                 self.canvas.create_oval(tile.x1 + 10, tile.y1 + 10, tile.x2 - 10, tile.y2 - 10, fill="black", outline="white")
 
 
-            self.canvas.update()
+        self.canvas.update()
 
-b = Board('boards/board-2-3.txt', "a_star")
+b = Board('boards/board-2-2.txt', "a_star")

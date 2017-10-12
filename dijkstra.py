@@ -1,7 +1,7 @@
 from queues import PriorityQueue
 
 
-def djikstra(start_tile, end_tile):
+def dijkstra(start_tile, end_tile):
     """
     Dijkstra's algorithm
     :param start_tile: Tile object, start tile of board
